@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="./needed/kendo.common.min.css" />
+    <link rel="stylesheet" href="./needed/kendo.default.min.css" />
+
+    <script src="./needed/jquery.min.js"></script>
+    <script src="./needed/kendo.all.min.js"></script>
+</head>
+<body>
+        <div id="example">
+            <div id="gauge-container">
+                <div id="gauge"></div>
+                <br />
+                <br />
+                <a href="index.html">Volver</a>
+            </div>
+
+            <script>
+                function createGauge() {
+                    $("#gauge").kendoRadialGauge({
+
+                        pointer: {
+                            value: 100,
+                            color: "red",
+      	                  cap: { color : "red" }
+                        },
+
+                        scale: {
+                            minorUnit: 5,
+                            startAngle: -30,
+                            endAngle: 210,
+                            max: 180
+                        }
+                    });
+                }
+
+                $(document).ready(function() 
+                {
+                    createGauge();
+
+                    function updateValue() 
+                    {
+                        $("#gauge").data("kendoRadialGauge").value($("#gauge-value").val());
+                    }
+
+                    if (kendo.ui.Slider) 
+                    {
+                        $("#gauge-value").kendoSlider({
+                            min: 0,
+                            max: 180,
+                            showButtons: false,
+                            change: updateValue
+                        });
+                    } else 
+                    {
+                        $("#gauge-value").change(updateValue);
+                    }
+
+
+                    $(document).bind("kendo:skinChange", function(e) 
+                    {
+                        createGauge();
+                    });
+                    
+                    try
+                    {
+                         
+                        //var height = $(window).height();  
+                        var width = $(window).width()
+                        document.getElementById("gauge-container").style.width = ( width - 16 ) + "px";
+                        document.getElementById("gauge-container").style.height = ( width - 16 )  + "px";
+                        
+                        document.getElementById("gauge").style.width = ( width - 16 ) + "px";
+                        document.getElementById("gauge").style.height = ( width - 16 ) + "px";
+                        
+                    }
+                    catch(e)
+                    {
+                        alert("Hoal mundo2 " + e.toString());   
+                    }
+                    
+                    
+                });
+            </script>
+
+            <style>
+                body
+                {
+                    text-align: center;
+                }
+                #gauge-container 
+                {
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+                }
+
+                #gauge 
+                {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0 auto;
+                }
+            </style>
+        </div>
+
+
+
+</body>
+</html>
